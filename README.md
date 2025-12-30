@@ -20,7 +20,7 @@ Given these conditions, retaining customers is commercially important. Acquisiti
 This project aims to:
 - explore patterns of churn using a proxy CRM dataset
 - understand behavioural characteristics that may relate to churn
-- later (optional) develop a predictive or segmentation-based component
+- develop a predictive or segmentation-based component
 - most importantly, simulate how churn analysis could support real-world commercial thinking in Aotearoa New Zealand
 
 ---
