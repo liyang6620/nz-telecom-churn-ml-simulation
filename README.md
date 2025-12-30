@@ -7,12 +7,27 @@ The purpose is not only technical exploration but to demonstrate how data can su
 
 ---
 
-## 2. Business Context – Why Churn Matters in New Zealand
-The New Zealand telecommunications market is highly concentrated — Spark, One NZ and 2degrees together account for the vast majority of mobile and broadband connections.  
-Urban fibre availability is strong, yet approximately 170,000 households (around 10% of NZ homes) still lack fixed broadband access due to regional and affordability constraints.  
-Switching behaviour is limited — only around 11% of broadband users changed providers in the past year, and about one-third of those experienced difficulty or dissatisfaction when switching.
+## 2. Business Context — New Zealand Telecommunications Environment
 
-Given these conditions, retaining customers is commercially important. Acquisition can cost several times more than keeping existing users, and churn reduction — even at modest levels — can translate into meaningful financial outcomes for a NZ provider.
+New Zealand’s telecommunications market is highly concentrated. According to the Commerce Commission Telecommunications Monitoring Report (June 2025), three mobile network operators — 2degrees, Spark and One NZ — collectively hold 97.5% of the mobile market. There are 11 mobile virtual network operators (MVNOs), but together they serve only a small, though growing, share of customers. The broadband market is somewhat less concentrated, with the top three providers holding 73% market share.
+
+The competitive landscape has also shifted in recent years, including:
+- the merger of Vocus and 2degrees (2022), increasing market concentration
+- Mercury’s acquisition of Trustpower’s broadband business (2022–2023), driving bundled energy-broadband subscription growth
+
+While fibre and wireless coverage is high — 100% of urban homes have fibre available and over 90% have access to 4G fixed wireless — customer switching remains relatively low. Only about 11% of broadband households changed providers in the six months to June 2024, and approximately one-third of those who attempted to switch experienced difficulty or dissatisfaction. Bundling is also a retention driver, with 11% of non-switchers citing bundled services as a reason for staying.
+
+These indicators suggest churn in New Zealand is strongly shaped by:
+- price sensitivity (switching often motivated by cheaper plans or more data)
+- bundling (electricity-telco bundles reducing churn likelihood)
+- structural market concentration (limited alternative providers in many cases)
+
+This project therefore frames churn as a commercial decision-making problem within an Aotearoa context, grounded in:
+- market structure and switching behaviour evidenced in the Commerce Commission report
+- real consumer drivers (price, bundles, friction)
+- NZ-specific telco characteristics rather than generic global telecom assumptions
+
+**Source:** Commerce Commission New Zealand – *Telecommunications Monitoring Report, 30 June 2025*
 
 ---
 
