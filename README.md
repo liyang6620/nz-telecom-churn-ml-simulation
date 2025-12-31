@@ -6,51 +6,57 @@ Because New Zealand telco CRM is confidential, a public dataset (JB-Link, Kaggle
 The purpose is not only technical exploration but to demonstrate how data can support business insight, decision-making, and customer-focused retention thinking.
 
 ---
-
 ## 2. Business Context — Why Churn Matters in New Zealand
 
-New Zealand’s telecommunications market is highly concentrated. According to the Commerce Commission Telecommunications Monitoring Report (June 2025), three mobile network operators — 2degrees, Spark and One NZ — collectively hold approximately 97.5% of the mobile market, while 11 MVNOs operate only at a relatively small scale. The broadband market is somewhat less concentrated, with the top three providers holding around 73% market share.
+**Source:** Commerce Commission New Zealand — *Telecommunications Monitoring Report, 30 June 2025*
 
-Although infrastructure access is strong — fibre is available to 100% of urban homes and over 90% of households have access to 4G fixed wireless — customer switching behaviour is limited. Only around 11% of broadband households changed providers in the six months to June 2024, and nearly one-third of those who attempted to switch experienced difficulty or dissatisfaction. Bundling also plays a role in customer inertia, with 11% of non-switchers noting they remained because their broadband was part of a broader household bundle (e.g., electricity + internet).
+The New Zealand telecommunications market operates within a highly concentrated competitive structure. Three mobile network operators — 2degrees, Spark and One NZ — collectively hold approximately 97.5% of the mobile market, with 11 MVNOs serving only a comparatively small share of customers. In the broadband sector, the top three providers account for around 73% of connections, indicating similar concentration dynamics.
+
+Infrastructure coverage across New Zealand is strong. Fibre is available to 100% of urban homes, and more than 90% of households have access to 4G fixed wireless. However, customer switching remains notably limited. Only around 11% of broadband households switched providers in the six months to June 2024, and nearly one-third of those who attempted to switch reported difficulty or dissatisfaction. Bundling products (such as broadband packaged with electricity) has further contributed to customer stickiness — cited by 11% of non-switchers as a reason for remaining with their provider.
+
+---
 
 ### Why This Problem Matters
 
-In a mature market where service availability and network performance no longer serve as differentiators, **growth is increasingly dependent on retaining existing users rather than solely acquiring new ones**. Reducing churn even marginally (for example, by 5–10%) can have a material financial impact, given that acquisition costs are typically several times higher than the cost to retain an existing customer.
+In a market where network availability and service performance no longer provide clear competitive differentiation, **customer retention becomes a fundamental lever for growth and financial stability**. Acquisition costs are typically several times higher than the cost of retention, meaning that even a modest reduction in churn (e.g., 5–10%) can translate into a meaningful uplift in annual revenue and customer lifetime value.
 
-For telecom operators in New Zealand, churn is therefore a business-critical metric influencing:
+From a commercial standpoint, churn materially influences:
+
 - revenue forecasting and financial planning
-- customer-lifetime-value (CLV) analysis
-- resource allocation for outbound retention efforts
-- marketing spend and incentive design
-- product and pricing strategy (e.g., bundling, plan structure, discount thresholds)
+- customer-lifetime-value (CLV) modelling and prioritisation
+- allocation of customer-operations and outbound contact resources
+- performance and return-on-investment of marketing and CRM programmes
+- product and pricing strategy — including bundling, data allowances, and plan structure
 
-### What This Project Simulates and Aims to Solve
+---
 
-Because customer-level churn datasets in New Zealand are not publicly available, this project uses a fictional proxy dataset to simulate how churn analysis could operate inside a telecom organisation. The project structure mirrors the typical analytical flow used internally by telcos when churn becomes a strategic priority:
+### Scope of This Project
 
-- identifying customers most at risk of leaving before churn occurs  
-- analysing behavioural and demographic factors influencing the likelihood of churn  
-- grouping customers into segments to support prioritisation  
-- translating analytical findings into targeted business actions, such as:
-  - proactive retention outreach
-  - bundle design to reduce churn likelihood among specific segments
-  - targeted offers or price adjustments aligned with demonstrated price sensitivity
-  - operational improvements to reduce switching friction (e.g., digital self-service pathways)
+Due to the absence of publicly available customer-level churn datasets in New Zealand, this project uses a fictional proxy dataset to **simulate how churn analytics would function inside a telecom provider**. The analytical flow replicates processes commonly used operationally when churn is treated as a strategic priority:
 
-The intent is not only to produce analysis, but to simulate how such findings could feed into **commercial decisions** — for example, estimating potential revenue impact, identifying segments with the strongest upside, or informing investment into retention programmes.
+- identifying customers with a high likelihood of churn prior to departure
+- analysing behavioural and demographic characteristics associated with churn
+- segmenting customers to enable prioritised retention approaches
+- translating findings into targeted commercial actions, including:
+  - proactive retention outreach to high-risk segments
+  - bundle recommendations designed to reduce churn likelihood
+  - data-driven pricing or upgrade incentives aligned with demonstrated price sensitivity
+  - operational improvements aimed at reducing switching friction (e.g., streamlined digital pathways)
 
-### Practical Use of Insights
+The objective is to move beyond analytics for its own sake — instead demonstrating how insights could inform **commercial decisions**, whether quantifying revenue at risk, prioritising retention resources, or shaping investment into CRM programmes.
 
-In a real-world context, the outputs of churn analysis would typically be consumed by multiple departments:
+---
 
-- Strategy and Finance teams — to understand the financial implications of churn and model retention-based revenue scenarios
-- Marketing and CRM teams — to design and target personalised retention campaigns
-- Customer Operations — to prioritise outbound contact lists and allocate resources efficiently
-- Product and Pricing — to refine bundles, data limits, or plan design based on observed behaviours
+### How Insights Would Be Operationalised in Practice
 
-This project reflects that operational flow, taking the perspective of **how data would support decision-making across the organisation**, rather than focusing solely on technical outputs.
+Churn insights generated through this simulated workflow would typically support multiple internal teams, including:
 
+- **Strategy and Finance** — modelling financial exposure, revenue at risk, and forecast improvement scenarios
+- **Marketing and CRM** — designing targeted, data-driven retention campaigns and incentive structures
+- **Customer Operations** — prioritising outbound contact lists and workload distribution
+- **Product and Pricing** — refining plan tiers, bundle offerings, and service value propositions
 
+This project is therefore positioned as a **representation of how churn analytics would be embedded into decision-making across a telecommunications organisation**, rather than as a stand-alone technical exercise.
 
 ---
 
