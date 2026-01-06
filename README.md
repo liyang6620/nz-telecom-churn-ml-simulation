@@ -1,75 +1,87 @@
-# NZ Telecom Churn Simulation Project
-
-## 1. Executive Summary
-This project simulates how a New Zealand telecom provider could analyse and reduce customer churn using publicly available fictional CRM data. 
-Because New Zealand telco CRM is confidential, a public dataset (JB-Link, Kaggle) is used solely as a proxy.  
-The purpose is not only technical exploration but to demonstrate how data can support business insight, decision-making, and customer-focused retention thinking.
-
----
-## 2. Business Context — Why Churn Matters in New Zealand
-
-**Source:** Commerce Commission New Zealand — *Telecommunications Monitoring Report, 30 June 2025*
-
-The New Zealand telecommunications market operates within a highly concentrated competitive structure. Three mobile network operators — 2degrees, Spark and One NZ — collectively hold approximately 97.5% of the mobile market, with 11 MVNOs serving only a comparatively small share of customers. In the broadband sector, the top three providers account for around 73% of connections, indicating similar concentration dynamics.
-
-Infrastructure coverage across New Zealand is strong. Fibre is available to 100% of urban homes, and more than 90% of households have access to 4G fixed wireless. However, customer switching remains notably limited. Only around 11% of broadband households switched providers in the six months to June 2024, and nearly one-third of those who attempted to switch reported difficulty or dissatisfaction. Bundling products (such as broadband packaged with electricity) has further contributed to customer stickiness — cited by 11% of non-switchers as a reason for remaining with their provider.
+# NZ Telecom Churn Simulation  
+Commercial Analytics Case – Customer Retention
 
 ---
 
-### Why This Problem Matters
+## Executive Summary
 
-In a market where network availability and service performance no longer provide clear competitive differentiation, **customer retention becomes a fundamental lever for growth and financial stability**. Acquisition costs are typically several times higher than the cost of retention, meaning that even a modest reduction in churn (e.g., 5–10%) can translate into a meaningful uplift in annual revenue and customer lifetime value.
+This project simulates how a New Zealand telecommunications provider could analyse and operationalise customer churn insights to support customer retention, revenue protection, and customer lifetime value optimisation.
 
-From a commercial standpoint, churn materially influences:
+Due to the commercial sensitivity of real New Zealand telecom CRM data, a publicly available fictional telecom dataset is used as a proxy. The analysis focuses on how churn insights would be generated, interpreted, and applied in practice across strategy, CRM, customer operations, and product teams.
 
-- revenue forecasting and financial planning
-- customer-lifetime-value (CLV) modelling and prioritisation
-- allocation of customer-operations and outbound contact resources
-- performance and return-on-investment of marketing and CRM programmes
-- product and pricing strategy — including bundling, data allowances, and plan structure
+**Simulated Role:** Data Analyst / Analytics Consultant  
+**Primary Stakeholders:** Strategy, CRM, Customer Operations, Product & Pricing  
+**Decision Focus:** Churn risk identification, retention prioritisation, revenue-at-risk management
 
 ---
 
-### Scope of This Project
+## Business Context — Why Churn Matters in New Zealand
 
-Due to the absence of publicly available customer-level churn datasets in New Zealand, this project uses a fictional proxy dataset to **simulate how churn analytics would function inside a telecom provider**. The analytical flow replicates processes commonly used operationally when churn is treated as a strategic priority:
+**Source:** Commerce Commission New Zealand, Telecommunications Monitoring Report (30 June 2025)
 
-- identifying customers with a high likelihood of churn prior to departure
-- analysing behavioural and demographic characteristics associated with churn
-- segmenting customers to enable prioritised retention approaches
-- translating findings into targeted commercial actions, including:
-  - proactive retention outreach to high-risk segments
-  - bundle recommendations designed to reduce churn likelihood
-  - data-driven pricing or upgrade incentives aligned with demonstrated price sensitivity
-  - operational improvements aimed at reducing switching friction (e.g., streamlined digital pathways)
+The New Zealand telecommunications market is highly concentrated. Three mobile network operators — 2degrees, Spark, and One NZ — collectively account for approximately 97.5% of the mobile market, while a small number of MVNOs hold only a minor share. A similar concentration exists in the broadband market, where the top three providers account for around 73% of connections.
 
-The objective is to move beyond analytics for its own sake — instead demonstrating how insights could inform **commercial decisions**, whether quantifying revenue at risk, prioritising retention resources, or shaping investment into CRM programmes.
+Network availability and infrastructure coverage are no longer primary sources of competitive differentiation. Fibre is available to virtually all urban households, and more than 90% of households have access to 4G fixed wireless services. As a result, customer churn is driven less by network access and more by pricing, bundling, perceived value, service experience, and switching friction.
+
+Despite this, customer switching remains limited. Only around 11% of broadband households switched providers in the six months to June 2024. Among those who attempted to switch, nearly one-third reported difficulty or dissatisfaction with the process. Product bundling, such as broadband combined with electricity services, has further increased customer stickiness and was cited by 11% of non-switchers as a reason for remaining with their provider.
 
 ---
 
-### How Insights Would Be Operationalised in Practice
+## Commercial Significance of Churn
 
-Churn insights generated through this simulated workflow would typically support multiple internal teams, including:
+In a mature and concentrated market, customer retention is a critical driver of sustainable growth. Acquisition costs in telecommunications are typically several times higher than the cost of retaining existing customers, meaning that even modest reductions in churn can produce material improvements in revenue stability and customer lifetime value.
 
-- **Strategy and Finance** — modelling financial exposure, revenue at risk, and forecast improvement scenarios
-- **Marketing and CRM** — designing targeted, data-driven retention campaigns and incentive structures
-- **Customer Operations** — prioritising outbound contact lists and workload distribution
-- **Product and Pricing** — refining plan tiers, bundle offerings, and service value propositions
-
-This project is therefore positioned as a **representation of how churn analytics would be embedded into decision-making across a telecommunications organisation**, rather than as a stand-alone technical exercise.
+From a commercial perspective, churn directly influences revenue forecasting, financial planning, customer lifetime value modelling, prioritisation of CRM and customer operations resources, marketing and retention programme effectiveness, and product and pricing strategy decisions. Churn analytics therefore functions as a cross-functional decision-support capability rather than a narrow modelling exercise.
 
 ---
 
-## 3. Project Objective
-This project aims to:
-- explore patterns of churn using a proxy CRM dataset
-- understand behavioural characteristics that may relate to churn
-- develop a predictive or segmentation-based component
-- most importantly, simulate how churn analysis could support real-world commercial thinking in Aotearoa New Zealand
+## Project Scope
+
+This project simulates how churn analytics would be used within a New Zealand telecommunications provider when churn is treated as a strategic business issue.
+
+The scope includes identifying customers with elevated churn risk prior to departure, analysing behavioural, contractual, and service-related factors associated with churn, segmenting customers to support prioritised retention approaches, and translating analytical findings into commercially actionable insights.
+
+Examples of simulated applications include targeted retention outreach for high-risk customer segments, bundle or plan recommendations aligned with observed usage behaviour, pricing or incentive strategies informed by price sensitivity, and operational improvements aimed at reducing switching friction.
 
 ---
 
-## 4. Dataset and Ethical Disclaimer
-Dataset: JB-Link fictional telecom CRM dataset (public Kaggle source)  
-Reason for use: New Zealand telco CRM data is commercially confidential and cannot be shared publicly.  
-Ethics: No real NZ customer data is used, and no dataset in this project contains personally identifiable information (PII). This project is a simulation only.
+## Business Questions Addressed
+
+This project is structured to address decision-oriented questions including:
+
+- Which customers represent the highest likelihood of churn?
+- What behavioural or contractual characteristics are most strongly associated with churn?
+- How should retention resources be prioritised under operational and budget constraints?
+- Which churn outcomes may be unavoidable versus preventable?
+- How can churn insights inform pricing, bundling, and customer experience strategies?
+
+---
+
+## Analytical Approach Overview
+
+The analytical workflow mirrors common industry practice and is designed to be transferable to real telecom CRM environments.
+
+The approach includes structured data understanding and feature exploration, analysis of churn patterns and customer segments, development of churn risk indicators or predictive components, and interpretation of results with a focus on business decision support rather than model optimisation.
+
+Outputs are treated as inputs into human decision-making processes rather than automated actions.
+
+---
+
+## Operational Use of Insights
+
+In a production environment, insights from this analysis would typically support multiple internal functions.
+
+Strategy and finance teams would use churn outputs to estimate revenue at risk and model retention scenarios. Marketing and CRM teams would use churn signals to design targeted retention campaigns and incentive structures. Customer operations teams would use churn risk indicators to prioritise outbound contact and workload allocation. Product and pricing teams would use insights to review plan structures, bundles, and perceived customer value.
+
+---
+
+## Dataset Source and Ethics
+
+**Dataset:** JB-Link Telco Customer Churn Dataset  
+**Source:** Kaggle – John Flag  
+https://www.kaggle.com/datasets/johnflag/jb-link-telco-customer-churn
+
+The dataset is a publicly available fictional telecom CRM dataset and is used solely as a proxy to simulate churn analytics workflows. No real New Zealand customer data is used, and the dataset contains no personally identifiable information. All analysis is conducted for demonstration and portfolio purposes only.
+
+---
+
