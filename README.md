@@ -62,7 +62,7 @@ This project is structured around decision-oriented questions commonly faced by 
 
 ---
 
-## Analytical Approach (High-Level)
+## Analytical Approach 
 
 The analytical workflow mirrors common industry practice and is designed to be transferable to real telecom CRM environments.
 
@@ -72,7 +72,7 @@ Model outputs are treated as inputs into human decision-making rather than autom
 
 ---
 
-## Key Analytical Insights (Summary)
+## Key Analytical Insights
 
 Several consistent patterns emerge from the analysis:
 
