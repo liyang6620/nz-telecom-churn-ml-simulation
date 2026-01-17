@@ -11,7 +11,6 @@ Due to the commercial sensitivity of real New Zealand telecom CRM data, a public
 
 The deliverables include an end-to-end analytical workflow (exploratory analysis, feature design, risk scoring) and a lightweight operational scoring interface deployed via Streamlit to simulate real-world usage.
 
-**Simulated Role:** Data Analyst / Analytics Consultant  
 **Primary Stakeholders:** Strategy, CRM, Customer Operations, Product & Pricing  
 **Decision Focus:** Churn risk identification, retention prioritisation, revenue-at-risk management
 
@@ -123,8 +122,6 @@ https://www.kaggle.com/datasets/johnflag/jb-link-telco-customer-churn
 The dataset is a publicly available fictional telecom CRM dataset and is used solely as a proxy to demonstrate churn analytics workflows. No real New Zealand customer data is used, and the dataset contains no personally identifiable information. All analysis is conducted for demonstration and portfolio purposes only.
 
 ---
-
-## Repository Structure
 
 
 
