@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  model-and-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python -m compileall -q app.py
+      - run: python -c "import joblib; joblib.load('churn_model.pkl'); joblib.load('training_schema.pkl'); joblib.load('raw_feature_list.pkl')"
+      - run: jupyter nbconvert --execute --to notebook --output /tmp/churn-exploration-validated.ipynb exploratory_analysis.ipynb --ExecutePreprocessor.timeout=900
+      - run: jupyter nbconvert --execute --to notebook --output /tmp/churn-model-validated.ipynb feature_engineering_and_modeling.ipynb --ExecutePreprocessor.timeout=900
