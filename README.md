@@ -1,129 +1,144 @@
-# NZ Telecom Churn Simulation  
+# NZ Telecom Churn Simulation
 
-[![CI](https://github.com/liyang6620/nz-telecom-churn-ml-simulation/actions/workflows/ci.yml/badge.svg)](https://github.com/liyang6620/nz-telecom-churn-ml-simulation/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-Commercial Analytics Case – Customer Retention & Revenue Protection
+[![CI](https://github.com/liyang6620/nz-telecom-churn-ml-simulation/actions/workflows/ci.yml/badge.svg)](https://github.com/liyang6620/nz-telecom-churn-ml-simulation/actions/workflows/ci.yml)
+[![Live demo](https://img.shields.io/badge/demo-Streamlit-16754a)](https://nz-telecom-churn-ml-simulation-8murruu2syd4x2wry5ikcd.streamlit.app/)
+[![Python 3.12](https://img.shields.io/badge/python-3.12-3776AB)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 
----
+An interview-ready decision-support demo that turns customer churn probabilities into a
+capacity-aware retention queue. It combines a reproducible XGBoost workflow with guarded CSV
+ingestion, transparent business rules, revenue-at-risk estimates, and downloadable CRM output.
 
-## Executive Summary
+**[Open the live demo](https://nz-telecom-churn-ml-simulation-8murruu2syd4x2wry5ikcd.streamlit.app/)**
+No upload is required: the app opens with 120 fictional demo customers.
 
-This project demonstrates how customer churn analytics can be operationalised within a New Zealand telecommunications provider to support retention prioritisation, revenue protection, and customer lifetime value optimisation in a mature and highly competitive market.
+![Retention portfolio overview](docs/images/overview.jpg)
 
-Due to the commercial sensitivity of real New Zealand telecom CRM data, a publicly available fictional telecom dataset is used solely as a proxy. The emphasis of this project is not model experimentation, but how churn insights are generated, interpreted, and applied in practice across strategy, CRM, customer operations, and product teams.
+## Product workflow
 
-The deliverables include an end-to-end analytical workflow (exploratory analysis, feature design, risk scoring) and a lightweight operational scoring interface deployed via Streamlit to simulate real-world usage.
+1. Start with the built-in portfolio or upload a compatible UTF-8 customer snapshot.
+2. Validate schema, identifiers, numeric ranges, categorical values, file size, and row count.
+3. Apply the persisted training schema and generate a churn probability for each customer.
+4. Set the team's contact capacity for the current retention cycle.
+5. Review the ranked queue, transparent recommended action, and monthly revenue at risk.
+6. Download the full plan for downstream CRM or analyst review.
 
-**Primary Stakeholders:** Strategy, CRM, Customer Operations, Product & Pricing  
-**Decision Focus:** Churn risk identification, retention prioritisation, revenue-at-risk management
+![Capacity-aware retention action queue](docs/images/action-queue.jpg)
 
----
+## Why this is more than a model notebook
 
-## Business Context — Why Churn Matters in New Zealand
+| Capability | Implementation |
+|---|---|
+| Immediate evaluation | Built-in representative demo dataset; no setup or upload required |
+| Operational decision | Contact capacity converts model scores into a bounded action queue |
+| Explainable action layer | Deterministic service-recovery, contract, bundle, and loyalty rules |
+| Data quality protection | Actionable validation for missing columns, duplicate IDs, types, and domains |
+| Stable inference | Fixed training schema and batch-independent categorical encoding |
+| Portable model | XGBoost's stable UBJSON format instead of a version-fragile model pickle |
+| Quality controls | Ruff, pytest, Streamlit smoke test, score regression test, notebook execution |
+| Responsible use | Explicit limitations, human-review requirement, and no real customer data |
 
-**Source:** Commerce Commission New Zealand — Telecommunications Monitoring Report (30 June 2025)
+## Architecture
 
-The New Zealand telecommunications market is highly concentrated. Three mobile network operators — 2degrees, Spark, and One NZ — collectively account for approximately 97.5% of the mobile market, while a small number of MVNOs hold only a minor share. A similar concentration exists in broadband, where the top three providers account for approximately 73% of connections.
+```mermaid
+flowchart LR
+    A[Demo or uploaded CSV] --> B[Validation and normalisation]
+    B --> C[Fixed feature contract]
+    C --> D[XGBoost probability model]
+    D --> E[Risk tiers and revenue at risk]
+    E --> F[Capacity-aware retention queue]
+    F --> G[Review and CSV export]
+```
 
-Network availability is no longer a primary source of differentiation. Fibre coverage is near-universal in urban areas, and more than 90% of households have access to 4G fixed wireless services. As a result, churn is driven less by infrastructure access and more by pricing, bundling, perceived value, service experience, and switching friction.
+The model probability remains separate from the decision layer. Risk tiers, estimated revenue at
+risk, and recommended actions are deterministic rules and are labelled as such in the interface.
 
-Despite this, switching remains limited. Only around 11% of broadband households switched providers in the six months to June 2024. Among those who attempted to switch, nearly one-third reported difficulty or dissatisfaction with the process. Product bundling — such as broadband combined with electricity — has further increased customer stickiness and was cited by 11% of non-switchers as a reason for remaining with their provider.
+## Evaluation snapshot
 
-In this environment, churn analytics is not a niche modelling task, but a core commercial capability supporting retention strategy, financial planning, and customer experience design.
+The reproducible modelling notebook uses a stratified 75/25 train-test split with a fixed random
+seed and removes the known outcome/leakage fields before training.
 
----
+| Hold-out measure | Result |
+|---|---:|
+| Test ROC-AUC | 0.9755 |
+| Overall churn rate | 26.52% |
+| Churn rate in top risk decile | 99.44% |
+| Top-decile lift | 3.75x |
+| Churn rate in top two deciles | 96.32% |
+| Top-two-decile lift | 3.63x |
 
-## Commercial Significance of Churn
+These are portfolio demonstration results from one fictional public dataset, not evidence of
+performance on a live New Zealand telecom population. See the [model card](docs/MODEL_CARD.md) for
+intended use, limitations, and production monitoring requirements.
 
-In a mature and saturated market, sustainable growth depends more on retaining existing customers than acquiring new ones. Acquisition costs in telecommunications are typically several times higher than retention costs, meaning even modest reductions in churn can produce material improvements in revenue stability and customer lifetime value.
+## Local setup
 
-From a commercial perspective, churn directly influences revenue forecasting and financial planning, customer lifetime value modelling, prioritisation of CRM and customer operations resources, effectiveness of retention campaigns and incentives, and product design, pricing, and bundling strategy.
+```bash
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+# macOS/Linux: source .venv/bin/activate
+python -m pip install -r requirements.txt
+streamlit run app.py
+```
 
-Churn analytics therefore functions as a cross-functional decision-support system, rather than a narrow predictive exercise.
+The app will be available at `http://localhost:8501`. Use the built-in demo or switch to
+**Upload CSV** and download the input template from the sidebar.
 
----
+## Development checks
 
-## Project Scope
+```bash
+python -m pip install -r requirements-dev.txt
+ruff check app.py src tests
+python -m compileall -q app.py src tests
+pytest -q
+```
 
-This project simulates how churn analytics would be used when churn is treated as a strategic business issue rather than a modelling challenge.
+CI runs those checks and independently executes both notebooks from a clean checkout. The score
+regression test locks the published demo predictions, while the batch-independence test prevents
+categorical encoding drift between single-customer and multi-customer uploads.
 
-The scope includes identifying customers with elevated churn risk prior to departure, analysing behavioural, contractual, pricing, and service-related drivers of churn, segmenting customers to support prioritised retention approaches, and translating analytical outputs into commercially actionable insights.
+## Repository structure
 
-Simulated applications include targeted retention outreach for high-risk customers, bundle or plan recommendations aligned with observed usage behaviour, pricing and incentive strategies informed by price sensitivity, and operational improvements aimed at reducing switching friction.
+```text
+.
+|-- app.py                              # Streamlit product interface
+|-- src/churn_app/
+|   |-- config.py                       # Paths, limits, and feature contract
+|   |-- scoring.py                      # Validation, preprocessing, inference
+|   `-- decisions.py                    # Risk tiers and retention rules
+|-- tests/                              # Unit, regression, and app smoke tests
+|-- data/
+|   |-- telco_test_sample.csv           # 120-row fictional demo input
+|   |-- scored_customers.csv            # Regression baseline
+|   `-- telco_churn_data.csv             # Source analysis dataset
+|-- exploratory_analysis.ipynb
+|-- feature_engineering_and_modeling.ipynb
+|-- churn_model.ubj                     # Portable XGBoost model artifact
+|-- training_schema.pkl                 # Encoded feature ordering
+`-- raw_feature_list.pkl                # Raw model input contract
+```
 
----
+## Data, privacy, and scope
 
-## Business Questions Addressed
+- **Dataset:** [JB-Link Telco Customer Churn](https://www.kaggle.com/datasets/johnflag/jb-link-telco-customer-churn)
+- **Nature:** public, fictional telecom CRM data used as a portfolio proxy
+- **Privacy:** no real New Zealand customer or personally identifying data is used
+- **Decision scope:** prioritisation support only; no automated outreach, eligibility, or pricing
+- **Demo limits:** UTF-8 CSV, 10 MB, 50,000 rows, and the documented training categories
 
-This project is structured around decision-oriented questions commonly faced by telecom providers:
+For a real deployment, the model would require representative local data, time-based validation,
+probability calibration, fairness review, drift monitoring, authenticated access, audit logging,
+and controlled CRM integration.
 
-- Which customers represent the highest likelihood of churn?
-- What behavioural or contractual characteristics are most strongly associated with churn?
-- How should retention resources be prioritised under operational and budget constraints?
-- Which churn outcomes are likely preventable versus structurally unavoidable?
-- How can churn insights inform pricing, bundling, and customer experience strategy?
+## Documentation
 
----
+- [Model card](docs/MODEL_CARD.md)
+- [Changelog](CHANGELOG.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security policy](SECURITY.md)
+- [License](LICENSE) and [third-party notice](NOTICE)
 
-## Analytical Approach 
+## Status
 
-The analytical workflow mirrors common industry practice and is designed to be transferable to real telecom CRM environments.
-
-Key components include structured data understanding and leakage control, exploratory analysis of churn patterns and customer segments, feature engineering focused on pre-churn observable signals, development of a probability-based churn risk score for ranking and segmentation, and evaluation using lift and decile concentration rather than accuracy alone.
-
-Model outputs are treated as inputs into human decision-making rather than automated triggers.
-
----
-
-## Key Analytical Insights
-
-Several consistent patterns emerge from the analysis:
-
-- Contract structure and tenure are the strongest structural drivers of churn. Month-to-month and short-tenure customers exhibit substantially higher churn, reflecting low switching friction and limited customer attachment.
-- Pricing exposure and billing characteristics matter more than absolute price levels. Higher monthly charges, billing volatility, and certain payment methods are associated with elevated churn risk.
-- Service configuration and optional add-ons influence customer stickiness. Customers with value-added services show lower churn, consistent with ecosystem dependency.
-- Customer interaction signals act as near-term early-warning indicators of churn.
-- Churn is not purely a low-usage problem. Higher-usage customers can be more likely to churn due to higher expectations and greater sensitivity to perceived value.
-
----
-
-## Modelling and Risk Scoring
-
-A gradient-boosted decision tree model is used to capture non-linear relationships and interactions across contract, pricing, service, usage, and customer experience variables.
-
-The model outputs a churn risk score (probability) rather than a binary churn label, enabling customer ranking, prioritisation, and segmentation under capacity and budget constraints.
-
-Evaluation focuses on risk concentration and lift, demonstrating that churn is heavily concentrated in the highest-risk segments, making targeted retention commercially efficient.
-
----
-
-## Operationalisation: Streamlit Scoring Application
-
-To simulate real-world usage, a lightweight Streamlit application is included and deployed.
-
-**Live App:**  
-https://nz-telecom-churn-ml-simulation-8murruu2syd4x2wry5ikcd.streamlit.app/
-
-The app loads persisted model and preprocessing artefacts, accepts a customer snapshot CSV, applies consistent feature preparation and schema alignment, and outputs a churn risk score for each customer suitable for CRM or operational use.
-
----
-
-## Intended Operational Use
-
-In a production setting, insights from this analysis would typically support strategy and finance teams in estimating revenue at risk, CRM and marketing teams in designing targeted retention campaigns, customer operations teams in prioritising outbound contact, and product and pricing teams in reviewing plan structures, bundles, and perceived customer value.
-
-Churn outputs are designed to complement human judgement rather than replace it.
-
----
-
-## Dataset Source and Ethics
-
-**Dataset:** JB-Link Telco Customer Churn Dataset  
-**Source:** Kaggle – John Flag  
-https://www.kaggle.com/datasets/johnflag/jb-link-telco-customer-churn
-
-The dataset is a publicly available fictional telecom CRM dataset and is used solely as a proxy to demonstrate churn analytics workflows. No real New Zealand customer data is used, and the dataset contains no personally identifiable information. All analysis is conducted for demonstration and portfolio purposes only.
-
----
-
-
-
+`v1.0.0` is the intended stable portfolio baseline. The project is maintained as a public
+interview demonstration, not as a production telecom service.
