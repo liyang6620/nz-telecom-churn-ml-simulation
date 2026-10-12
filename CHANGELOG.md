@@ -26,3 +26,4 @@ All notable changes to this project are documented here.
 - Added upload size and row limits
 - Rejected malformed schemas, duplicate identifiers, invalid numeric data, and unsupported categories
 - Replaced raw exception output with user-safe error messages
+- Upgraded Streamlit and nbconvert to patched releases covering all known repository alerts
