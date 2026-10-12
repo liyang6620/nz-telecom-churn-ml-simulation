@@ -140,5 +140,5 @@ and controlled CRM integration.
 
 ## Status
 
-`v1.0.0` is the intended stable portfolio baseline. The project is maintained as a public
+`v1.0.1` is the current stable portfolio baseline. The project is maintained as a public
 interview demonstration, not as a production telecom service.

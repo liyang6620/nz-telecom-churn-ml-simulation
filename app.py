@@ -88,7 +88,7 @@ with st.sidebar:
                 template_file,
                 file_name="customer_snapshot_template.csv",
                 mime="text/csv",
-                use_container_width=True,
+                width="stretch",
             )
 
 try:
@@ -193,7 +193,7 @@ with queue_tab:
     st.dataframe(
         queue[queue_columns],
         hide_index=True,
-        use_container_width=True,
+        width="stretch",
         column_config={
             "priority_rank": st.column_config.NumberColumn("Rank", format="%d"),
             "risk_tier": "Risk tier",
@@ -222,7 +222,7 @@ with all_results_tab:
     st.dataframe(
         plan[display_columns],
         hide_index=True,
-        use_container_width=True,
+        width="stretch",
         column_config={
             "priority_rank": "Rank",
             "risk_tier": "Risk tier",
