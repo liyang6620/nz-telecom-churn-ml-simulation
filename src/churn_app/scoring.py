@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -10,6 +11,7 @@ import numpy as np
 import pandas as pd
 from xgboost import XGBClassifier
 
+from .calibration import PlattCalibrator
 from .config import (
     BASELINE_DUMMY_COLUMNS,
     CALIBRATOR_PATH,
@@ -51,7 +53,9 @@ def load_artifacts(
     model.load_model(model_path)
     return ModelArtifacts(
         model=model,
-        calibrator=joblib.load(calibrator_path),
+        calibrator=PlattCalibrator.from_dict(
+            json.loads(calibrator_path.read_text(encoding="utf-8"))
+        ),
         training_columns=pd.Index(joblib.load(schema_path)),
         raw_feature_list=tuple(joblib.load(raw_features_path)),
     )

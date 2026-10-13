@@ -342,7 +342,9 @@ def train_and_evaluate() -> dict[str, object]:
     top_features = _top_shap_features(model, x_test)
 
     model.save_model(MODEL_PATH)
-    joblib.dump(calibrator, CALIBRATOR_PATH)
+    CALIBRATOR_PATH.write_text(
+        json.dumps(calibrator.to_dict(), indent=2), encoding="utf-8"
+    )
     joblib.dump(training_columns, SCHEMA_PATH)
     joblib.dump(list(raw_features), RAW_FEATURES_PATH)
     comparison.to_csv(TABLES_DIR / "model-comparison.csv", index=False)

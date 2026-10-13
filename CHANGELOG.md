@@ -11,6 +11,7 @@
 - Added validation-only Platt calibration and cost-aware threshold selection.
 - Added untouched-test ranking, calibration, threshold, uncertainty, and SHAP evidence.
 - Updated inference to serve calibrated probabilities and added an ML evidence view to the app.
+- Persisted calibration parameters as portable JSON instead of a Python pickle.
 
 ### Added
 

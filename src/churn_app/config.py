@@ -4,7 +4,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 MODEL_PATH = PROJECT_ROOT / "churn_model.ubj"
-CALIBRATOR_PATH = PROJECT_ROOT / "probability_calibrator.pkl"
+CALIBRATOR_PATH = PROJECT_ROOT / "probability_calibrator.json"
 SCHEMA_PATH = PROJECT_ROOT / "training_schema.pkl"
 RAW_FEATURES_PATH = PROJECT_ROOT / "raw_feature_list.pkl"
 MODEL_METADATA_PATH = PROJECT_ROOT / "artifacts" / "model_metadata.json"

@@ -161,7 +161,7 @@ executes both notebooks in a clean Python 3.12 environment.
 |-- exploratory_analysis.ipynb
 |-- feature_engineering_and_modeling.ipynb
 |-- churn_model.ubj               # Portable XGBoost model
-|-- probability_calibrator.pkl
+|-- probability_calibrator.json    # Portable Platt slope and intercept
 |-- training_schema.pkl
 `-- app.py                        # Downstream Streamlit demonstration
 ```
