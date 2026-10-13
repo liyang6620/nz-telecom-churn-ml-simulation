@@ -12,6 +12,7 @@ from xgboost import XGBClassifier
 
 from .config import (
     BASELINE_DUMMY_COLUMNS,
+    CALIBRATOR_PATH,
     CATEGORICAL_VALUES,
     CUSTOMER_ID_COLUMN,
     LEAKAGE_COLUMNS,
@@ -34,12 +35,14 @@ class DataValidationError(ValueError):
 @dataclass(frozen=True)
 class ModelArtifacts:
     model: object
+    calibrator: object
     training_columns: pd.Index
     raw_feature_list: tuple[str, ...]
 
 
 def load_artifacts(
     model_path: Path = MODEL_PATH,
+    calibrator_path: Path = CALIBRATOR_PATH,
     schema_path: Path = SCHEMA_PATH,
     raw_features_path: Path = RAW_FEATURES_PATH,
 ) -> ModelArtifacts:
@@ -48,6 +51,7 @@ def load_artifacts(
     model.load_model(model_path)
     return ModelArtifacts(
         model=model,
+        calibrator=joblib.load(calibrator_path),
         training_columns=pd.Index(joblib.load(schema_path)),
         raw_feature_list=tuple(joblib.load(raw_features_path)),
     )
@@ -82,7 +86,7 @@ def validate_customer_data(raw_df: pd.DataFrame, raw_feature_list: tuple[str, ..
         preview = ", ".join(map(str, duplicates[:5]))
         raise DataValidationError(f"Customer ID must be unique. Duplicates include: {preview}.")
 
-    for column in NUMERIC_COLUMNS:
+    for column in (name for name in NUMERIC_COLUMNS if name in model_inputs):
         original = clean[column]
         converted = pd.to_numeric(original, errors="coerce")
         invalid = original.notna() & converted.isna()
@@ -99,7 +103,7 @@ def validate_customer_data(raw_df: pd.DataFrame, raw_feature_list: tuple[str, ..
         if clean[column].isna().any() or clean[column].lt(0).any():
             raise DataValidationError(f"{column} must contain non-negative values.")
 
-    for column in YES_NO_COLUMNS:
+    for column in (name for name in YES_NO_COLUMNS if name in model_inputs):
         values = clean[column].dropna().astype(str).str.strip().str.title()
         invalid_values = sorted(set(values) - {"Yes", "No"})
         if invalid_values:
@@ -108,6 +112,8 @@ def validate_customer_data(raw_df: pd.DataFrame, raw_feature_list: tuple[str, ..
         clean[column] = clean[column].astype("string").str.strip().str.title()
 
     for column, allowed_values in CATEGORICAL_VALUES.items():
+        if column not in model_inputs:
+            continue
         normalised = {value.casefold(): value for value in allowed_values}
         source = clean[column].astype("string").str.strip()
         canonical = source.str.casefold().map(normalised)
@@ -184,7 +190,8 @@ def score_customers(
         set(prepared.columns) - set(artifacts.training_columns) - BASELINE_DUMMY_COLUMNS
     )
     aligned = prepared.reindex(columns=artifacts.training_columns, fill_value=0)
-    scores = artifacts.model.predict_proba(aligned)[:, 1]
+    raw_scores = artifacts.model.predict_proba(aligned)[:, 1]
+    scores = artifacts.calibrator.predict(raw_scores)
 
     if not np.isfinite(scores).all():
         raise RuntimeError("The model returned invalid probability values.")

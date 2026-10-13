@@ -1,0 +1,194 @@
+{
+  "model_version": "2.0.0",
+  "random_state": 42,
+  "data_sha256": "0387c4732744b0c2b5df6987f9292c2c83ab74f306d648e3acce429046b7ea3b",
+  "dataset_rows": 7043,
+  "target_rate": 0.2653698707936959,
+  "split": {
+    "train_rows": 4225,
+    "validation_rows": 1409,
+    "test_rows": 1409
+  },
+  "selection": {
+    "method": "5-fold stratified CV on the training split",
+    "primary_metric": "ROC-AUC",
+    "selected_model": "XGBoost (shallow)",
+    "candidates": [
+      {
+        "model": "XGBoost (shallow)",
+        "cv_roc_auc_mean": 0.9504230730129046,
+        "cv_roc_auc_std": 0.00605169142697559,
+        "cv_pr_auc_mean": 0.9054639704633303,
+        "cv_pr_auc_std": 0.010929189896260223,
+        "cv_brier_mean": 0.06953334395565214,
+        "cv_brier_std": 0.005151731840382329
+      },
+      {
+        "model": "XGBoost (regularised)",
+        "cv_roc_auc_mean": 0.9460497408297899,
+        "cv_roc_auc_std": 0.006622905067004645,
+        "cv_pr_auc_mean": 0.8973594716026085,
+        "cv_pr_auc_std": 0.010167008355048114,
+        "cv_brier_mean": 0.07337829337841009,
+        "cv_brier_std": 0.004547120079724823
+      },
+      {
+        "model": "Logistic regression",
+        "cv_roc_auc_mean": 0.9435224248091008,
+        "cv_roc_auc_std": 0.006431704111730281,
+        "cv_pr_auc_mean": 0.8929719197273276,
+        "cv_pr_auc_std": 0.0103603675679036,
+        "cv_brier_mean": 0.08941925394049102,
+        "cv_brier_std": 0.007530802646093192
+      },
+      {
+        "model": "Random forest",
+        "cv_roc_auc_mean": 0.9366383052457387,
+        "cv_roc_auc_std": 0.004067048363544194,
+        "cv_pr_auc_mean": 0.87824455113836,
+        "cv_pr_auc_std": 0.010088109146694883,
+        "cv_brier_mean": 0.09100253561158334,
+        "cv_brier_std": 0.003811663623207647
+      }
+    ]
+  },
+  "calibration": "Platt scaling fitted on the validation split",
+  "threshold_policy": "Validation cost: false negative = 5, false positive = 1",
+  "test_metrics": {
+    "roc_auc": 0.9573510036425638,
+    "roc_auc_95_ci": [
+      0.9451669223166321,
+      0.968213934206532
+    ],
+    "pr_auc": 0.9180918418343819,
+    "pr_auc_95_ci": [
+      0.8957828125903085,
+      0.9382316991549009
+    ],
+    "brier_raw": 0.06491846223146949,
+    "brier_calibrated": 0.0644524732556346,
+    "log_loss": 0.21875587424179802,
+    "threshold": 0.10490626012576267,
+    "precision": 0.6121739130434782,
+    "recall": 0.9411764705882353,
+    "f2": 0.8498309995171415,
+    "balanced_accuracy": 0.8628587666950838,
+    "specificity": 0.7845410628019324,
+    "false_positives": 223,
+    "false_negatives": 22
+  },
+  "top_features": [
+    {
+      "feature": "Total_Customer_Svc_Requests",
+      "mean_abs_shap": 0.8875920176506042,
+      "mean_shap": -0.17862775921821594
+    },
+    {
+      "feature": "Monthly_Charge",
+      "mean_abs_shap": 0.8039377331733704,
+      "mean_shap": -0.14851436018943787
+    },
+    {
+      "feature": "Contract_Month-to-Month",
+      "mean_abs_shap": 0.5777117609977722,
+      "mean_shap": -0.12199803441762924
+    },
+    {
+      "feature": "Product/Service_Issues_Reported",
+      "mean_abs_shap": 0.35962626338005066,
+      "mean_shap": -0.036964867264032364
+    },
+    {
+      "feature": "Tenure_in_Months",
+      "mean_abs_shap": 0.3119408190250397,
+      "mean_shap": -0.06433940678834915
+    },
+    {
+      "feature": "Unlimited_Data",
+      "mean_abs_shap": 0.2770320475101471,
+      "mean_shap": -0.02164440043270588
+    },
+    {
+      "feature": "Internet_Type_Cable",
+      "mean_abs_shap": 0.2675676941871643,
+      "mean_shap": -0.030405668541789055
+    },
+    {
+      "feature": "Contract_Two_Year",
+      "mean_abs_shap": 0.2555616497993469,
+      "mean_shap": -0.07701799273490906
+    },
+    {
+      "feature": "Online_Security",
+      "mean_abs_shap": 0.16880156099796295,
+      "mean_shap": -0.033275019377470016
+    },
+    {
+      "feature": "Internet_Type_Fiber_Optic",
+      "mean_abs_shap": 0.14986395835876465,
+      "mean_shap": -0.004617726430296898
+    },
+    {
+      "feature": "Avg_Monthly_GB_Download",
+      "mean_abs_shap": 0.14815446734428406,
+      "mean_shap": -0.008437163196504116
+    },
+    {
+      "feature": "Total_Long_Distance_Charges",
+      "mean_abs_shap": 0.13498137891292572,
+      "mean_shap": -0.036378949880599976
+    },
+    {
+      "feature": "Total_Regular_Charges",
+      "mean_abs_shap": 0.13368967175483704,
+      "mean_shap": -0.049604449421167374
+    },
+    {
+      "feature": "Premium_Tech_Support",
+      "mean_abs_shap": 0.12531565129756927,
+      "mean_shap": -0.009099733084440231
+    },
+    {
+      "feature": "Payment_Method_Credit_Card",
+      "mean_abs_shap": 0.12303110957145691,
+      "mean_shap": -0.01630440726876259
+    }
+  ],
+  "features": [
+    "Contract",
+    "Tenure in Months",
+    "Offer",
+    "tenure_group",
+    "Monthly Charge",
+    "Total Regular Charges",
+    "Total Refunds",
+    "Total Extra Data Charges",
+    "Total Long Distance Charges",
+    "Avg Monthly Long Distance Charges",
+    "Paperless Billing",
+    "Payment Method",
+    "Phone Service",
+    "Multiple Lines",
+    "Internet Service",
+    "Internet Type",
+    "Unlimited Data",
+    "Avg Monthly GB Download",
+    "Streaming TV",
+    "Streaming Movies",
+    "Streaming Music",
+    "Online Security",
+    "Online Backup",
+    "Device Protection Plan",
+    "Premium Tech Support",
+    "Total Customer Svc Requests",
+    "Product/Service Issues Reported"
+  ],
+  "excluded_as_direct_leakage": [
+    "Churn Value",
+    "Churn Category",
+    "Churn Reason"
+  ],
+  "excluded_as_timing_risk": [
+    "Customer Satisfaction"
+  ]
+}

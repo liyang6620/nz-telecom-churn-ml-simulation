@@ -1,0 +1,16 @@
+feature,mean_abs_shap,mean_shap
+Total_Customer_Svc_Requests,0.887592,-0.17862776
+Monthly_Charge,0.80393773,-0.14851436
+Contract_Month-to-Month,0.57771176,-0.121998034
+Product/Service_Issues_Reported,0.35962626,-0.036964867
+Tenure_in_Months,0.31194082,-0.06433941
+Unlimited_Data,0.27703205,-0.0216444
+Internet_Type_Cable,0.2675677,-0.030405669
+Contract_Two_Year,0.25556165,-0.07701799
+Online_Security,0.16880156,-0.03327502
+Internet_Type_Fiber_Optic,0.14986396,-0.0046177264
+Avg_Monthly_GB_Download,0.14815447,-0.008437163
+Total_Long_Distance_Charges,0.13498138,-0.03637895
+Total_Regular_Charges,0.13368967,-0.04960445
+Premium_Tech_Support,0.12531565,-0.009099733
+Payment_Method_Credit_Card,0.12303111,-0.016304407

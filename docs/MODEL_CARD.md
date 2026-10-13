@@ -1,65 +1,70 @@
-# Model Card: Telecom Churn Risk Model
+# Model Card: Telecom Churn Risk Model v2.0.0
 
-## Summary
-
-This XGBoost classifier ranks fictional telecom customers by predicted churn probability. It was
-built to demonstrate an end-to-end analytics workflow and a human-reviewed retention process.
+## Model details
 
 | Item | Detail |
 |---|---|
-| Model | XGBoost binary classifier |
-| Artifact | XGBoost UBJSON (`churn_model.ubj`) |
-| Training data | JB-Link fictional telco churn dataset |
+| Task | Binary churn classification and risk ranking |
+| Estimator | Shallow XGBoost selected from four predeclared candidates |
+| Probability layer | Platt calibration fitted on validation only |
+| Training data | 7,043-row JB-Link fictional telecom dataset |
 | Target | `Churn Value` |
-| Evaluation | Stratified 75/25 hold-out split, random state 42 |
-| Primary metric | ROC-AUC and lift in the highest-risk deciles |
-| Intended user | CRM, retention, customer operations, and analytics teams |
+| Split | Stratified 60% train / 20% validation / 20% test, seed 42 |
+| Selection | Five-fold CV on train; primary metric ROC-AUC |
+| Artifact | XGBoost UBJSON plus persisted calibrator and feature schema |
 
 ## Intended use
 
-- Rank customers for human review when outreach capacity is limited.
-- Explore how contract, service, price, tenure, and support signals relate to churn risk.
-- Demonstrate how model output can feed a transparent operational decision layer.
-
-The score must not autonomously determine customer eligibility, price, service access, or contact.
+The model demonstrates how pre-decision CRM and service signals can rank customers for human
+review when retention capacity is limited. It may be used for portfolio learning, interviews, and
+technical evaluation. It must not autonomously determine eligibility, price, service, or contact.
 
 ## Evaluation
 
-The recorded hold-out ROC-AUC is `0.9755`. Churn in the highest-risk decile is `99.44%`, or `3.75x`
-the portfolio rate. These point estimates come from a single random hold-out set and are likely
-optimistic relative to a future, shifted customer population.
+The untouched 1,409-row test set produced ROC-AUC `0.9574` (95% bootstrap CI
+`0.9452-0.9682`) and PR-AUC `0.9181` (`0.8958-0.9382`). Calibrated Brier score is `0.0645`.
 
-## Features and leakage controls
+A demonstration policy prices a false negative at five false positives. Its validation-selected
+threshold is `0.1049`; test recall is `94.1%`, precision `61.2%`, specificity `78.5%`, and F2
+`0.8498`. This operating point must be replaced by organisation-specific capacity, intervention
+cost, and benefit estimates before any real use.
 
-The model uses contract and tenure, charges, service configuration, usage, support interactions,
-and customer satisfaction. `Churn Value`, `Churn Category`, and `Churn Reason` are explicitly
-excluded from inference features. The application aligns every request to the persisted 40-column
-training schema.
+## Data and leakage controls
+
+Direct outcome fields (`Churn Category` and `Churn Reason`) are excluded. `Customer Satisfaction`
+is also excluded because 74% of values are missing and its timing relative to churn is ambiguous.
+Customer identifiers, demographics, location, and CLTV are not model inputs. The saved split
+manifest makes customer-level partition membership auditable.
+
+Service requests and issue counts are assumed to exist before the score timestamp. A production
+feature pipeline would need point-in-time correct joins to enforce that assumption.
+
+## Interpretation
+
+Native XGBoost SHAP contributions are aggregated on test data. They describe which encoded inputs
+most influence model output, not the direction or causal effect of an intervention. Recommended
+actions in the demo are deterministic rules and are not model explanations.
 
 ## Known limitations
 
-- The dataset is fictional and is not representative evidence for New Zealand customers.
-- Evaluation is a random hold-out rather than an out-of-time or external validation.
-- The current probabilities are not calibrated for financial forecasting.
-- Training data may encode historical sampling or service-design bias.
-- Recommended actions are rules, not causal treatment-effect estimates.
-- No protected-attribute fairness claims are made.
+- Fictional data is not evidence of New Zealand population performance.
+- Random splits may overstate performance relative to future cohorts.
+- No external or out-of-time dataset is available.
+- Calibration may drift as customer mix, products, and pricing change.
+- The dataset cannot support a defensible protected-group fairness assessment.
+- Retention effectiveness requires treatment-effect measurement, not churn prediction alone.
 
-## Production requirements
+## Monitoring requirements for real use
 
-Before live use, an owner would need to establish representative data, consent and retention rules,
-time-based evaluation, probability calibration, segment-level performance and fairness checks,
-drift and data-quality monitoring, an intervention hold-out, access controls, audit logging, model
-versioning, rollback, and a documented human escalation process.
+- Point-in-time feature availability, schema, missingness, and unseen categories
+- Population stability and score-distribution drift
+- ROC-AUC, PR-AUC, Brier score, calibration, recall, and precision after labels mature
+- Segment performance and fairness with appropriately governed attributes
+- Contact rate, incremental save rate, cost per save, complaints, and overrides
+- Versioned data, code, model, calibrator, threshold, approvals, and rollback evidence
 
-## Monitoring suggestions
+## Reproducibility
 
-- Input schema, missingness, categorical novelty, and score distribution
-- ROC-AUC, precision/recall, lift, and calibration after labels mature
-- Performance by contract, tenure, geography, and reviewed protected groups
-- Contact rate, offer rate, save rate, incremental retention, and cost per save
-- Override rate, complaint rate, and unintended customer outcomes
-
-## Version
-
-This card describes the `v1.0.0` portfolio baseline.
+`python scripts/train_model.py` rebuilds all model and evaluation artifacts. Dataset SHA-256,
+candidate results, split sizes, test metrics, threshold policy, and SHAP rankings are persisted in
+`artifacts/model_metadata.json`.

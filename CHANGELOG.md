@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.0.0] - 2026-10-13
+
+### Changed
+
+- Reframed the repository around ML methodology and evidence rather than the downstream UI.
+- Replaced test-set tuning with a stratified 60/20/20 train/validation/test contract.
+- Added five-fold comparison of logistic regression, random forest, and two XGBoost candidates.
+- Excluded Customer Satisfaction because of ambiguous timing and 74% missingness.
+- Added validation-only Platt calibration and cost-aware threshold selection.
+- Added untouched-test ranking, calibration, threshold, uncertainty, and SHAP evidence.
+- Updated inference to serve calibrated probabilities and added an ML evidence view to the app.
+
+### Added
+
+- Reproducible `scripts/train_model.py` entry point and CI model rebuild.
+- Regression tests for calibration, published evaluation evidence, and split integrity.
+
 All notable changes to this project are documented here.
 
 ## [1.0.1] - 2026-10-13

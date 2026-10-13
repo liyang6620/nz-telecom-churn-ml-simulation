@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import io
+import json
 import sys
 from pathlib import Path
 
@@ -12,7 +13,11 @@ import streamlit as st
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from churn_app.config import DEMO_DATA_PATH, MAX_UPLOAD_BYTES  # noqa: E402
+from churn_app.config import (  # noqa: E402
+    DEMO_DATA_PATH,
+    MAX_UPLOAD_BYTES,
+    MODEL_METADATA_PATH,
+)
 from churn_app.decisions import RISK_ORDER, build_retention_plan  # noqa: E402
 from churn_app.scoring import DataValidationError, load_artifacts, score_customers  # noqa: E402
 
@@ -60,6 +65,11 @@ def load_demo_data() -> pd.DataFrame:
     return pd.read_csv(DEMO_DATA_PATH)
 
 
+@st.cache_data
+def load_model_metadata() -> dict:
+    return json.loads(MODEL_METADATA_PATH.read_text(encoding="utf-8"))
+
+
 def read_upload(uploaded_file) -> pd.DataFrame:
     if uploaded_file.size > MAX_UPLOAD_BYTES:
         raise DataValidationError("The upload exceeds the 10 MB demo limit.")
@@ -71,11 +81,15 @@ def read_upload(uploaded_file) -> pd.DataFrame:
 
 try:
     artifacts = get_artifacts()
+    model_metadata = load_model_metadata()
 except Exception:
     st.error("The model bundle is unavailable. Please try again later.")
     st.stop()
 
 with st.sidebar:
+    st.markdown("### Model contract")
+    st.caption("XGBoost v2.0.0 · 60/20/20 split · validation-only calibration")
+    st.divider()
     st.markdown("### Scoring setup")
     source_mode = st.radio("Customer source", ["Built-in demo", "Upload CSV"])
     uploaded = None
@@ -127,33 +141,59 @@ with st.sidebar:
 plan = build_retention_plan(scored, int(contact_capacity))
 queue = plan.loc[plan["contact_this_cycle"]].copy()
 
-st.markdown('<div class="eyebrow">NZ telecom churn simulation</div>', unsafe_allow_html=True)
-st.title("Retention control centre")
+st.markdown('<div class="eyebrow">Leakage-aware ML case study</div>', unsafe_allow_html=True)
+st.title("Telecom churn modelling workbench")
 st.markdown(
-    '<div class="subhead">Turn churn probabilities into a capacity-aware customer '
-    "action queue.</div>",
+    '<div class="subhead">Compare, calibrate and explain a churn model, then inspect how its '
+    "predictions support a retention workflow.</div>",
     unsafe_allow_html=True,
 )
 source_label = "Demo data" if source_mode == "Built-in demo" else "Uploaded data"
 st.markdown(
-    f'<span class="status">Model ready · {source_label}</span>', unsafe_allow_html=True
+    f'<span class="status">Calibrated XGBoost v{model_metadata["model_version"]} · '
+    f"{source_label}</span>",
+    unsafe_allow_html=True,
 )
 
 critical_count = int(plan["risk_tier"].eq("Critical").sum())
 average_risk = plan["churn_risk_score"].mean()
 revenue_at_risk = queue["monthly_revenue_at_risk"].sum()
 
-metric_columns = st.columns(4)
-metric_columns[0].metric("Customers scored", f"{customer_count:,}")
-metric_columns[1].metric("Critical risk", f"{critical_count:,}")
-metric_columns[2].metric("Average churn risk", f"{average_risk:.1%}")
-metric_columns[3].metric("Queue revenue at risk", f"${revenue_at_risk:,.0f}/mo")
-
-overview_tab, queue_tab, all_results_tab, notes_tab = st.tabs(
-    ["Overview", "Action queue", "All results", "Notes"]
+evidence_tab, overview_tab, queue_tab, all_results_tab, notes_tab = st.tabs(
+    ["Model evidence", "Portfolio scoring", "Action queue", "All results", "Notes"]
 )
 
+with evidence_tab:
+    test_metrics = model_metadata["test_metrics"]
+    evidence_columns = st.columns(4)
+    evidence_columns[0].metric("Test ROC-AUC", f"{test_metrics['roc_auc']:.3f}")
+    evidence_columns[1].metric("Test PR-AUC", f"{test_metrics['pr_auc']:.3f}")
+    evidence_columns[2].metric("Calibrated Brier", f"{test_metrics['brier_calibrated']:.3f}")
+    evidence_columns[3].metric("Recall at policy threshold", f"{test_metrics['recall']:.1%}")
+    st.caption(
+        "Metrics use an untouched 20% test split. Candidate selection uses five-fold CV on the "
+        "training split; calibration and the 5:1 false-negative cost threshold use validation only."
+    )
+    comparison_column, calibration_column = st.columns(2, gap="large")
+    with comparison_column:
+        st.subheader("Model selection")
+        st.image(str(ROOT / "reports" / "figures" / "model-comparison.png"), width="stretch")
+    with calibration_column:
+        st.subheader("Probability calibration")
+        st.image(str(ROOT / "reports" / "figures" / "calibration.png"), width="stretch")
+    st.subheader("What drives predictions")
+    st.image(str(ROOT / "reports" / "figures" / "feature-importance.png"), width="stretch")
+    st.caption(
+        "Global mean absolute SHAP values are computed on the untouched test split. Importance "
+        "describes model influence, not causality."
+    )
+
 with overview_tab:
+    metric_columns = st.columns(4)
+    metric_columns[0].metric("Customers scored", f"{customer_count:,}")
+    metric_columns[1].metric("Critical risk", f"{critical_count:,}")
+    metric_columns[2].metric("Average churn risk", f"{average_risk:.1%}")
+    metric_columns[3].metric("Queue revenue at risk", f"${revenue_at_risk:,.0f}/mo")
     left, right = st.columns([1, 1], gap="large")
     with left:
         st.subheader("Customers by risk tier")
@@ -248,7 +288,8 @@ with notes_tab:
     st.subheader("How to interpret this demo")
     st.markdown(
         """
-        - **Churn risk** is an XGBoost probability used to rank customers, not a guarantee of churn.
+        - **Churn risk** is a calibrated XGBoost probability used to rank customers, not a
+          guarantee of churn.
         - **Risk tier** and **recommended action** are transparent rules layered on the score.
         - **Revenue at risk** is a prioritisation estimate, not a financial forecast.
         - The fictional public dataset has not been validated on real NZ customers.
