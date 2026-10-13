@@ -13,13 +13,11 @@ import streamlit as st
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from churn_app.config import (  # noqa: E402
-    DEMO_DATA_PATH,
-    MAX_UPLOAD_BYTES,
-    MODEL_METADATA_PATH,
-)
+from churn_app.config import DEMO_DATA_PATH, MAX_UPLOAD_BYTES  # noqa: E402
 from churn_app.decisions import RISK_ORDER, build_retention_plan  # noqa: E402
 from churn_app.scoring import DataValidationError, load_artifacts, score_customers  # noqa: E402
+
+MODEL_METADATA_PATH = ROOT / "artifacts" / "model_metadata.json"
 
 st.set_page_config(page_title="Retention control centre", page_icon="◫", layout="wide")
 
